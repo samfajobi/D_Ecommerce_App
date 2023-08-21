@@ -1,0 +1,15 @@
+{
+  "name": "voting_dapp",
+  "version": "1.0.0",
+  "description": "A Voting Decentralized Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.17.1"
+  }
+}
