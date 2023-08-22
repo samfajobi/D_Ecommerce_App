@@ -40,8 +40,9 @@ contract GadgetCommerce {
             _rating,
             _stock
         );
-
-        items[_id] = item;
+        
+        // Save item to blockchain using the Id
+        items[_id] = item;   
 
     }
 }

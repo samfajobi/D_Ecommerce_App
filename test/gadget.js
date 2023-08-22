@@ -19,6 +19,32 @@ describe("Gadget", () => {
             expect(await gadget.owner()).to.equal(deployer.address)
         })
     })
+
+    describe("Listing", () => {
+        let transactions
+
+        const ID = 2
+
+        beforeEach(async () => {
+            transactions = await gadget.connect(deployer).list(
+                ID,
+                "Cap",
+                "Dress",
+                "IMAGE",
+                20,
+                5,
+                6,
+            )
+
+            await transactions.wait()
+        })
+
+        it("Return Items attributes", async () => {
+            const item = await gadget.items(ID)
+            console.log(item)
+            expect(item.id).to.equal(ID)     
+        })
+    })
    
 })
 
