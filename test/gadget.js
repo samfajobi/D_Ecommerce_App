@@ -2,6 +2,18 @@
 
 const expect = require("chai").expect;
 
+const tokens = (n) => {
+
+}
+
+// constant variables for item listing
+const ID = 2
+const NAME = "Cap"
+const CATEGORY = "Dress"
+const IMAGE = "https://scarlet-uneven-rodent-526.mypinata.cloud/ipfs/QmSn7ib8wozfZ1UreUh7RQvvaMVTX4fUz8UyUcEWZPUAfu?_gl=1*1il03it*_ga*MjAzMzA3MTYxNi4xNjkyNzMzNTQw*_ga_5RMPXG14TE*MTY5MjgwODEzNS40LjEuMTY5MjgwODMwMi42MC4wLjA."
+const COST = 2
+const RATING = 2
+const STOCK = 2
 
 describe("Gadget", () => {
 
@@ -12,28 +24,26 @@ describe("Gadget", () => {
         [deployer, buyer] = await ethers.getSigners()
         const Gadget = await ethers.getContractFactory("GadgetCommerce")
         gadget = await Gadget.deploy()
-    })
+    });
     
     describe("Deployment", () => {
         it("Set owner to address", async () => {
             expect(await gadget.owner()).to.equal(deployer.address)
         })
-    })
+    });
 
     describe("Listing", () => {
         let transactions
 
-        const ID = 2
-
         beforeEach(async () => {
             transactions = await gadget.connect(deployer).list(
                 ID,
-                "Cap",
-                "Dress",
-                "IMAGE",
-                20,
-                5,
-                6,
+                NAME,
+                CATEGORY,
+                IMAGE,
+                COST,
+                RATING,
+                STOCK,
             )
 
             await transactions.wait()
@@ -42,10 +52,16 @@ describe("Gadget", () => {
         it("Return Items attributes", async () => {
             const item = await gadget.items(ID)
             console.log(item)
-            expect(item.id).to.equal(ID)     
+            console.log(item.id)
+            expect(item.id).to.equal(ID)
+            expect(item.name).to.equal(NAME) 
+            expect(item.category).to.equal(CATEGORY)   
         })
-    })
-   
+
+        it("Emit events", async() => {
+            expect(transactions).to.emit(gadget, 'List')
+        })
+    });   
 })
 
     

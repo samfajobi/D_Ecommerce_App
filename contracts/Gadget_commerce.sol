@@ -15,6 +15,12 @@ contract GadgetCommerce {
         uint stock;
     }
     mapping(uint256 => Item) public items;
+    event List(string name, uint cost, uint quantity);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 
     constructor() {
         owner = msg.sender;
@@ -28,7 +34,7 @@ contract GadgetCommerce {
         uint256 _cost,
         uint256 _rating,
         uint256 _stock
-    ) public {
+    ) public onlyOwner {
 
         // creating a new instance of the items
         Item memory item = Item(
@@ -42,7 +48,31 @@ contract GadgetCommerce {
         );
         
         // Save item to blockchain using the Id
-        items[_id] = item;   
+        items[_id] = item;  
+
+        // Emit Event
+        emit List(_name, _cost, _stock);
 
     }
 }
+
+
+
+
+
+
+// contract Mapping() {
+//     mapping(address => uint256) public balances;
+      
+//     function mapFunc() {
+//         balances[msg.sender] = 123; ---> set data
+//         uint bal = balance[msg.sender];  ---> get data  
+//         balances[msg.sender] = 456    ---> update data
+//         balances[msg.sender] += 345   ---> increment data  // 345 + 123
+//         delete balance[msg.sender];   ---> delete data    // 0
+//     } 
+// }
+
+
+
+//https://scarlet-uneven-rodent-526.mypinata.cloud/ipfs/QmSn7ib8wozfZ1UreUh7RQvvaMVTX4fUz8UyUcEWZPUAfu?_gl=1*1il03it*_ga*MjAzMzA3MTYxNi4xNjkyNzMzNTQw*_ga_5RMPXG14TE*MTY5MjgwODEzNS40LjEuMTY5MjgwODMwMi42MC4wLjA.
