@@ -3,20 +3,21 @@
 const expect = require("chai").expect;
 
 const tokens = (n) => {
-
-}
+    return ethers.parseUnits(n.toString(), 'ether')
+  }
+  
 
 // constant variables for item listing
 const ID = 2
 const NAME = "Cap"
 const CATEGORY = "Dress"
 const IMAGE = "https://scarlet-uneven-rodent-526.mypinata.cloud/ipfs/QmSn7ib8wozfZ1UreUh7RQvvaMVTX4fUz8UyUcEWZPUAfu?_gl=1*1il03it*_ga*MjAzMzA3MTYxNi4xNjkyNzMzNTQw*_ga_5RMPXG14TE*MTY5MjgwODEzNS40LjEuMTY5MjgwODMwMi42MC4wLjA."
-const COST = 2
+const COST = tokens(1)
 const RATING = 2
 const STOCK = 2
 
 describe("Gadget", () => {
-
+ 
     let gadget
     let deployer, buyer
 
@@ -24,6 +25,7 @@ describe("Gadget", () => {
         [deployer, buyer] = await ethers.getSigners()
         const Gadget = await ethers.getContractFactory("GadgetCommerce")
         gadget = await Gadget.deploy()
+        console.log(gadget.target)
     });
     
     describe("Deployment", () => {
@@ -51,13 +53,41 @@ describe("Gadget", () => {
 
         it("Return Items attributes", async () => {
             const item = await gadget.items(ID)
-            console.log(item)
-            console.log(item.id)
+
             expect(item.id).to.equal(ID)
             expect(item.name).to.equal(NAME) 
             expect(item.category).to.equal(CATEGORY)   
         })
 
+        it("Emit events", async() => {
+            expect(transactions).to.emit(gadget, 'List')
+        })
+    }); 
+    
+    describe("Buying", () => {
+        let transactions
+
+        beforeEach(async () => {
+            transactions = await gadget.connect(deployer).list(
+                ID,
+                NAME,
+                CATEGORY,
+                IMAGE,
+                COST,
+                RATING,
+                STOCK,
+            )
+            await transactions.wait()
+
+            transactions = await gadget.connect(buyer).buy(ID, {value: COST})
+            await transactions.wait();
+        })
+
+        it("Checks if balance equals costs", async() => {
+            result = await ethers.provider.getBalance(gadget.target)
+            expect(result).to.equal(COST)
+            console.log("Here is", result);
+        })
         it("Emit events", async() => {
             expect(transactions).to.emit(gadget, 'List')
         })
