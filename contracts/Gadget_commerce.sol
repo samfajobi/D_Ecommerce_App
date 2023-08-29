@@ -14,7 +14,16 @@ contract GadgetCommerce {
         uint rating;
         uint stock;
     }
+
+    struct Order {
+        uint256 time;
+        Item item;
+    }
+
     mapping(uint256 => Item) public items;
+    mapping(address => mapping(uint256 => Order)) public orders;
+    mapping(address => uint256) public orderCount;
+
     event List(string name, uint cost, uint quantity);
 
     modifier onlyOwner() {
@@ -25,7 +34,7 @@ contract GadgetCommerce {
     constructor() {
         owner = msg.sender;
     }
-
+ 
     function list(
         uint256 _id,
         string memory _name, 
@@ -56,6 +65,15 @@ contract GadgetCommerce {
     }
 
     function buy(uint256 _id) public payable {
+       //fetch Item
+       Item memory item = items[_id];
+
+       // Create Order
+       Order memory order = Order(block.timestamp, item)
+
+       // save order to blockchain
+       orderCount[msg.sender]++;
+       orders[msg.sender]orderCount[msg.sender] = order;
  
     }
 }
