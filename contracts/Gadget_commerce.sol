@@ -68,15 +68,30 @@ contract GadgetCommerce {
        //fetch Item
        Item memory item = items[_id];
 
+       // check for enough ether for purchase
+       require(msg.value >= item.cost)
+
+       // check if item is in stock
+       require(item.stock > 0);
+
        // Create Order
        Order memory order = Order(block.timestamp, item)
 
        // save order to blockchain
        orderCount[msg.sender]++;
        orders[msg.sender]orderCount[msg.sender] = order;
- 
+
+       // subtract item from stock
+       item[_id].stock = item.stock - 1;
+    }
+
+    function withdraw() public onlyOwner {
+        (bool success) = owner.call{value: address(this).balance}("");
+        require(success);
     }
 }
+
+
 
 
 
