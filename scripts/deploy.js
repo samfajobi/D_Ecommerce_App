@@ -9,7 +9,12 @@ async function main() {
 
   //await transactions.deployed();
 
-  
+  await transactions.waitForDeployment();
+
+ 
+  const address = await transactions.getAddress();
+  console.log(`Your transaction has been deployed to: ${address}`)
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
