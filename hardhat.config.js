@@ -14,5 +14,13 @@ module.exports = {
       accounts: [PRIVATE_KEY]
     }
   },
-  
+  solidity: {
+    version: "0.8.19",
+    settings: { 
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
 }
