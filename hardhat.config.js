@@ -5,12 +5,12 @@ require("dotenv").config();
 const {ALCHEMY_API_KEY, PRIVATE_KEY} = process.env;
 
 module.exports = {
-  defaultNetwork: "sepolia",
+  defaultNetwork: "goerli",
   networks: {
     hardhat: {
     },
-    sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+    goerli: {
+      url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [PRIVATE_KEY]
     }
   },
