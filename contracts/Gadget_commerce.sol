@@ -69,13 +69,13 @@ contract GadgetCommerce {
        Item memory item = items[_id];
 
        // check for enough ether for purchase
-       require(msg.value >= item.cost)
+       require(msg.value >= item.cost);
 
        // check if item is in stock
        require(item.stock > 0);
 
        // Create Order
-       Order memory order = Order(block.timestamp, item)
+       Order memory order = Order(block.timestamp, item);
 
        // save order to blockchain
        orderCount[msg.sender]++;

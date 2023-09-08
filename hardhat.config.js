@@ -1,8 +1,8 @@
 //import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+require("@nomicfoundation/hardhat-toolbox");
 
 require("dotenv").config();
-const {ALCHEMY_API_KEY, PRIVATE_KEY} = process.env;
+const {INFURA_API_KEY, PRIVATE_KEY} = process.env;
 
 module.exports = {
   defaultNetwork: "goerli",
@@ -24,3 +24,4 @@ module.exports = {
     }
   },
 }
+
