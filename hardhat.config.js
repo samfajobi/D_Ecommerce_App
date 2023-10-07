@@ -17,10 +17,10 @@ module.exports = {
   solidity: {
     version: "0.8.19",
     settings: { 
-      optimizer: {
+      optimizer: { 
         enabled: true,
         runs: 200
-      }
+      } 
     }
   },
 }
